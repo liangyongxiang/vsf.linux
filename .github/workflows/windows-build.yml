@@ -47,6 +47,11 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{matrix.build_config}} project/${{matrix.project_name}}/vsf_linux.sln /property:Configuration=${{matrix.build_config}} /property:Platform=${{matrix.platform}}
 
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
     - name: Test
       # TODO: check why only work for wexpect-uv==0.0.2
       run: |
