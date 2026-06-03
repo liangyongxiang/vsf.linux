@@ -55,7 +55,14 @@ jobs:
     - name: Test
       # TODO: check why only work for wexpect-uv==0.0.2
       run: |
-        pip install pytest pytest-bdd wexpect-uv==0.0.2 simple-hexdump
+        python --version
+        python -m pip install --upgrade pip
+        # wexpect-uv depends on setuptools>=76 for pkg_resources, but setuptools 70+
+        # removed pkg_resources. Install old setuptools + runtime deps first, then
+        # install wexpect-uv with --no-deps to bypass its setuptools>=76 constraint.
+        python -m pip install setuptools==69.5.1 psutil pywin32
+        python -m pip install --no-deps wexpect-uv==0.0.2
+        python -m pip install pytest pytest-bdd simple-hexdump
         if [ ${{matrix.platform}} = x64 ]; then
           template_file="${{github.workspace}}/project/${{matrix.project_name}}/x64/${{matrix.build_config}}/vsf_linux.exe"
         else
