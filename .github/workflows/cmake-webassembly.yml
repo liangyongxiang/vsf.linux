@@ -25,8 +25,10 @@ jobs:
       shell: bash
 
     - name: install emsdk
-      uses: mymindstorm/setup-emsdk@v16
+      uses: mymindstorm/setup-emsdk@v11
 
+    - name: build sdl2 port
+      run: embuilder build sdl2
     - name: Verify
       run: emcc -v
 
